@@ -12,7 +12,6 @@ from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 
 
 
-
 # МЕТОДЫ API
 #________________________________________________________________________________
 
@@ -37,6 +36,7 @@ def get_user_ids(user_ids): # user_ids - массив id
 		d['id'].append(u['id'])
 		d['link'].append("vk.com/id" + str(u['id']))
 	return d
+
 
 
 # ЧТЕНИЕ, ЗАПИСЬ И РАБОТА С ФАЙЛАМИ
@@ -72,7 +72,6 @@ class WRITE:
 		writer.save()
 	
 
-
 # на основе расширения будет по разному обрабатывать файл
 def save_with_ext(d_write):
 	ext = settings['options']['file_ext']
@@ -81,8 +80,6 @@ def save_with_ext(d_write):
 		WRITE(file_name_ext, d_write).write_json()
 	elif 'xlsx' in ext:
 		WRITE(file_name_ext, d_write).write_xlsx()
-
-
 
 
 class READ:
@@ -107,9 +104,6 @@ class READ:
 				if col_name not in d_one_list:
 					d_one_list[col_name] = []
 			d_read[sheet_name] = d_one_list
-		
-		#print('ДО')
-		#pprint(d_read)
 
 		for sheet_name in d_read['sheet_names']:
 			val = d_read[sheet_name]['id']
@@ -119,10 +113,6 @@ class READ:
 					link = d_read[sheet_name]['link'][ind]
 					if not pd.isnull(link) and 'vk.com/' in link:
 						d_read[sheet_name]['id'][ind] = link.split('/')[-1]
-
-		#print('ПОСЛЕ')
-		#pprint(d_read)
-
 		return d_read
 	
 	def read(self):
@@ -141,12 +131,7 @@ def download_file(file_name, url):
 
 
 
-
-
 settings = READ('settings.json').read_json()
-
-
-
 
 
 
@@ -291,7 +276,6 @@ def get_attachments(peer_id, message):
 				d['attachments'].insert(0, attach) # добавляем аудио-вложение в начало массива
 				continue
 			
-
 		elif 'wall' in type_:
 			attach = get_default_attach(type_, a, owner_id = 'to_id')
 
@@ -309,7 +293,6 @@ def get_attachments(peer_id, message):
 			attach = docs(type_, real_type_, peer_id, a)
 
 		d['attachments'].append(attach)
-
 
 	return d
 
@@ -346,8 +329,6 @@ def message_command(peer_id, text):
 		start()
 		answer = 'ID всех участников группы были сохранены в файл ' + '*user_ids' + settings['options']['file_ext'] + '*'
 		return create_d(peer_id, answer, keyboard = keyboard_default_with_start)
-	
-	
 
 
 def get_events(event):
@@ -359,11 +340,9 @@ def get_events(event):
 	text = message['text']
 	id_ = message['id']
 
-
 	if peer_id in settings['vk_bot']['admins']:
 
 		d = create_d(peer_id, '')
-		
 		d_command = message_command(peer_id, text)
 		if d_command != None:
 			return d_command
@@ -426,9 +405,7 @@ def get_events(event):
 
 			return d
 
-
 		#elif check_compliance(text, 'Get chats'): # получить список всех бесед
-
 
 		else:
 			d['text'] = 'Нажмите ' + settings['options']['commands']['start'] + ', чтобы обработать составленное сообщение, а потом ' + settings['options']['commands']['confirm'] + ', чтобы начать рассылку'
@@ -442,9 +419,7 @@ vk, longpoll = auth(settings['vk_bot']['token'], settings['vk_bot']['group_id'])
 
 
 
-
 #WRITE('settings.json', settings).write_json()
-
 
 
 d_id = {}

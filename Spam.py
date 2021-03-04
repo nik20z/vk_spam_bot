@@ -279,7 +279,6 @@ def get_attachments(peer_id, message):
 		elif 'wall' in type_:
 			attach = get_default_attach(type_, a, owner_id = 'to_id')
 
-		# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		elif 'link' in type_:
 			#pprint(a)
 			attach = a['url']
@@ -369,9 +368,7 @@ def get_events(event):
 			d = d_id[peer_id]['d']
 			profile_settings = settings['options']['profile']
 			spam_ids = user_ids[profile_settings]['id']
-			print('spam_ids')
-			print(spam_ids)
-			#d['peer_id'] = spam_ids #  МЕНЯЕТ ТЕКУЩИЙ iD НА СПИСОК iD МОИХ ОДНОГРУППНИКОВ
+			d['peer_id'] = spam_ids #  МЕНЯЕТ ТЕКУЩИЙ iD НА СПИСОК iD ПОЛЬЗОВАТЕЛЕЙ ИЗ ТЕКУЩЕГО ПРОФИЛЯ
 			d['keyboard']['buttons'] = []
 			chat_history(peer_id, id_, 'start_spamming')
 
@@ -399,7 +396,7 @@ def get_events(event):
                                        'type': 'callback'}}]],
               				'one_time': False}
 
-            # keyboard_confirm #create_keyboard('callback', [[settings['options']['commands']['confirm']]])
+            		# keyboard_confirm #create_keyboard('callback', [[settings['options']['commands']['confirm']]])
 
 			chat_history(peer_id, id_, d)
 
